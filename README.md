@@ -1,3 +1,3 @@
 # MovieQL
 
-Client for the MovieQL API built with Apollo
+Movie App built with React, Apollo and GraphQL
