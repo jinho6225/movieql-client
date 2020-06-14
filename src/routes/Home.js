@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import Movie from '../components/Movie';
 
 const GET_MOVIES = gql`
-  {
-    movies {
+  query getMovie($rating: Float) {
+    movies(rating: $rating) {
       id
       medium_cover_image
+      isLiked @client
     }
   }
 `;
@@ -54,7 +55,9 @@ const Movies = styled.div`
 `;
 
 export default () => {
-  const { loading, data } = useQuery(GET_MOVIES);
+  const { loading, data } = useQuery(GET_MOVIES, {
+    variables: { rating: 8.5 },
+  });
   return (
     <Container>
       <Header>
@@ -64,7 +67,12 @@ export default () => {
       {loading && <Loading>Loading...</Loading>}
       <Movies>
         {data?.movies?.map((m) => (
-          <Movie key={m.id} id={m.id} bg={m.medium_cover_image} />
+          <Movie
+            key={m.id}
+            id={m.id}
+            isLiked={m.isLiked}
+            bg={m.medium_cover_image}
+          />
         ))}
       </Movies>
     </Container>
